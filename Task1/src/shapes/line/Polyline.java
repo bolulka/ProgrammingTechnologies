@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Polyline extends Segment {
 
-	private int len;
 	private List<Segment> segments;
 
 	public Polyline() {
@@ -18,12 +17,11 @@ public class Polyline extends Segment {
 	public Polyline(Point theCenter, Point endPoint, int frameWidth, Color frameColor) {
 		super(theCenter, endPoint, frameWidth, frameColor);
 		segments = new ArrayList<>();
-		segments.add(new Segment(theCenter, endPoint, frameWidth, frameColor));
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		for (int i = 0; i < getLen(); i++) {
+		for (int i = 0; i < segments.size(); i++) {
 			g.setStroke(new BasicStroke(getFrameWidth()));
 			g.setColor(getFrameColor());
 			Segment segment = segments.get(i);
@@ -34,33 +32,26 @@ public class Polyline extends Segment {
 
 	@Override
 	public boolean contains(Point pt) {
-		int a, b;
-		double d = 0;
-		for (int i = 0; i < getLen(); i++) {
-			Point endPoint = segments.get(i).getEndPoint();
-			Point theCenter = segments.get(i).getTheCenter();
-			a = endPoint.y - theCenter.y;
-			b = endPoint.x - theCenter.x;
-			d = (a * pt.x - b * pt.y + b * theCenter.y - a * theCenter.x) / (Math.sqrt(a * a + b * b));
+		for (int i = 0; i < segments.size(); i++) {
+			if (segments.get(i).contains(pt)) {
+				return true;
+			}
 		}
-		return Math.abs(d) < getFrameWidth() / 2;
+		return false;
 	}
 
 	@Override
 	public void move(Point pt) {
-		for (int i = 0; i < getLen() - 1; ++i) {
-			Segment segm = segments.get(i);
-//			Point theCenter = segm.getTheCenter();
-//			Point endPoint = segm.getEndPoint();
-//			setEndPoint(new Point(endPoint.x + pt.x - theCenter.x, endPoint.y + pt.y - theCenter.y));
-			segm.move(pt);  
+		Segment firstSegment = segments.get(0);
+		firstSegment.move(pt);
+		for (int i = 1; i < segments.size(); ++i) {
+			segments.get(i).move(segments.get(i - 1).getEndPoint());
 		}
-		
 	}
 
 	public void addPoint(Point pt) {
-		segments.add(
-				new Segment(segments.get(segments.size() - 1).getEndPoint(), pt, getFrameWidth(), getFrameColor()));
+		Point endPoint = segments.isEmpty() ? getTheCenter() : segments.get(segments.size() - 1).getEndPoint();
+		segments.add(new Segment(endPoint, pt, getFrameWidth(), getFrameColor()));
 	}
 
 	public List<Segment> getSegments() {
@@ -69,15 +60,6 @@ public class Polyline extends Segment {
 
 	public void setSegments(List<Segment> segments) {
 		this.segments = segments;
-	}
-
-	public int getLen() {
-
-		return segments.size();
-	}
-
-	public void setLen(int len) {
-		this.len = len;
 	}
 
 }
