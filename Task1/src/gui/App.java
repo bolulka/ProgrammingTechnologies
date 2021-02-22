@@ -383,9 +383,9 @@ public class App extends JFrame {
 		fillColorButton = new JButton("fill color");
 		fillColorButton.setFont(new Font("Verdana", Font.PLAIN, 18));
 
-		redSlider = new JSlider();
-		greenSlider = new JSlider();
-		blueSlider = new JSlider();
+		redSlider = new JSlider(0,255);
+		greenSlider = new JSlider(0,255);
+		blueSlider = new JSlider(0,255);
 		redSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED), "Red"));
 		greenSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GREEN), "Green"));
 		blueSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLUE), "Blue"));
