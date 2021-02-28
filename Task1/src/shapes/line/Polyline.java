@@ -42,10 +42,19 @@ public class Polyline extends Segment {
 
 	@Override
 	public void move(Point pt) {
-		Segment firstSegment = segments.get(0);
-		firstSegment.move(pt);
-		for (int i = 1; i < segments.size(); ++i) {
+		Segment middleSegment = segments.get(segments.size() / 2);
+		middleSegment.move(pt);
+		for (int i = segments.size() / 2 + 1; i < segments.size(); i++) {
 			segments.get(i).move(segments.get(i - 1).getEndPoint());
+		}
+		for (int i = segments.size() / 2 - 1; i >= 0; i--) {
+			Point newEndPt = segments.get(i + 1).getLocation();
+			Point centPt = segments.get(i).getLocation();
+			Point endPt = segments.get(i).getEndPoint();
+			int deltaX = newEndPt.x - endPt.x;
+			int deltaY = newEndPt.y - endPt.y;
+			Point movePoint = new Point(centPt.x + deltaX, centPt.y + deltaY);
+			segments.get(i).move(movePoint);
 		}
 	}
 
