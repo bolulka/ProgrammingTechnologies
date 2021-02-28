@@ -25,7 +25,8 @@ public class App extends JFrame {
 	private JPanel rootPanel = new JPanel();
 	private JPanel drawPanel;
 	private JButton squarenessButton, ellipseButton, regularPolygonButton, segmentButton, lineButton, rayButton,
-			polygonButton, parallelogramButton, rhombusButton, polylineButton, triangleButton;
+			polygonButton, parallelogramButton, rhombusButton, polylineButton, triangleButton,
+			equaliteralTriangleButton;
 	private JButton moveShapesButton;
 	private JSlider redSlider, greenSlider, blueSlider;
 	private JButton frameColorButton, fillColorButton;
@@ -46,7 +47,7 @@ public class App extends JFrame {
 	private final int BUTTON_HEIGHT = 50;
 	private final int FRAME_WIDTH = 720;
 	private final int FRAME_HEIGHT = 560;
-	private String originalStr = "Chose shape";
+	private String originalStr = "Choose shape";
 
 	public App() {
 		super("Just Draw It");
@@ -213,6 +214,7 @@ public class App extends JFrame {
 					}
 					if (drawAction == DrawAction.UPDATE_POLYLINE) {
 						drawAction = DrawAction.POLYLINE;
+
 					}
 				}
 			}
@@ -277,6 +279,7 @@ public class App extends JFrame {
 						break;
 					case SEGMENT:
 					case RAY:
+					case POLYLINE:
 					case LINE:
 						Segment segment = (Segment) currentShape;
 						if (e.isShiftDown())
@@ -317,7 +320,7 @@ public class App extends JFrame {
 		});
 
 		widthComboBox.addActionListener(e -> frameWidth = (int) Math.pow(2, widthComboBox.getSelectedIndex()));
-		
+
 		addButtonsToRootPanel();
 
 	}
@@ -373,19 +376,23 @@ public class App extends JFrame {
 		polylineButton.setFont(new Font("Verdana", Font.PLAIN, 18));
 		triangleButton = new JButton("triangle");
 		triangleButton.setFont(new Font("Verdana", Font.PLAIN, 18));
+		equaliteralTriangleButton = new JButton("equaliteral triangle");
+		equaliteralTriangleButton.setFont(new Font("Verdana", Font.PLAIN, 18));
+		equaliteralTriangleButton.setEnabled(false);
 
 		moveShapesButton = new JButton("move shape");
 		moveShapesButton.setFont(new Font("Verdana", Font.PLAIN, 18));
-		transparencyCheckBox = new JCheckBox();
+		transparencyCheckBox = new JCheckBox("Transparency");
+		
 
 		frameColorButton = new JButton("frame color");
 		frameColorButton.setFont(new Font("Verdana", Font.PLAIN, 18));
 		fillColorButton = new JButton("fill color");
 		fillColorButton.setFont(new Font("Verdana", Font.PLAIN, 18));
 
-		redSlider = new JSlider(0, 255);
-		greenSlider = new JSlider(0, 255);
-		blueSlider = new JSlider(0, 255);
+		redSlider = new JSlider(0,255);
+		greenSlider = new JSlider(0,255);
+		blueSlider = new JSlider(0,255);
 		redSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED), "Red"));
 		greenSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GREEN), "Green"));
 		blueSlider.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLUE), "Blue"));
@@ -467,6 +474,7 @@ public class App extends JFrame {
 		buttonPanel.add(polygonButton);
 		buttonPanel.add(regularPolygonButton);
 		buttonPanel.add(triangleButton);
+		buttonPanel.add(equaliteralTriangleButton);
 
 		squarenessButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT + 20));
 		ellipseButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT + 20));
