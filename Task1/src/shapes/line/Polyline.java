@@ -60,7 +60,7 @@ public class Polyline extends Segment {
 
 	public void addPoint(Point pt) {
 		Point endPoint = segments.isEmpty() ? getTheCenter() : segments.get(segments.size() - 1).getEndPoint();
-		segments.add(new Segment(endPoint, pt, getFrameWidth(), getFrameColor()));
+		segments.add(new Segment(new Point(endPoint), pt, getFrameWidth(), getFrameColor()));
 	}
 
 	public List<Segment> getSegments() {
